@@ -1,0 +1,14 @@
+﻿<h1 class="text-danger">
+	@if (Context.Response.StatusCode >= 400)
+	{
+		@foreach (var kvp in (Dictionary<string, string[]>)ViewBag.errors)
+		{
+			@foreach (var value in kvp.Value)
+			{
+				<p>
+					@Html.DisplayFor(m => value)
+				</p>
+			}
+		}
+	}
+</h1>

@@ -1,0 +1,59 @@
+﻿@using UsuariosAPI.Models.ViewModels
+@model UsuarioViewModel
+
+<div class="text-danger" >
+	@if (Context.Response.StatusCode >= 400)
+	{
+		@foreach (var kvp in (Dictionary<string, string[]>)ViewBag.errors)
+		{
+			@foreach (var value in kvp.Value)
+			{
+			<p>
+					@Html.DisplayFor(m => value)
+			</p>
+			}
+		}
+	}
+</div>
+
+<form asp-action="Agregar">
+	<div asp-validation-summary="ModelOnly" class="text-danger" ></div>
+	<div class="mt-3">
+		<label asp-for="Id" class="form-label"></label>
+		<input asp-for="Id" class="form-control" value="0"></input>
+		<span asp-validation-for="Id" class="text-danger" ></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="Email" class="form-label"></label>
+		<input asp-for="Email" class="form-control"></input>
+		<span asp-validation-for="Email" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="Contraseña" class="form-label"></label>
+		<input asp-for="Contraseña" class="form-control"></input>
+		<span asp-validation-for="Contraseña" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="Nombres" class="form-label"></label>
+		<input asp-for="Nombres" class="form-control"></input>
+		<span asp-validation-for="Nombres" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="Apellidos" class="form-label"></label>
+		<input asp-for="Apellidos" class="form-control"></input>
+		<span asp-validation-for="Apellidos" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="IdSucursal" class="form-label"></label>
+		<select asp-for="IdSucursal" asp-items="ViewBag.sucursales" class="form-select"></select>
+		<span asp-validation-for="IdSucursal" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<label asp-for="IdRol" class="form-label"></label>
+		<select asp-for="IdRol" asp-items="ViewBag.roles" class="form-select"></select>
+		<span asp-validation-for="IdRol" class="text-danger"></span>
+	</div>
+	<div class="mt-3">
+		<input type="submit" value="Agregar" class="btn btn-success" />
+	</div>
+</form>

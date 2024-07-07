@@ -1,0 +1,48 @@
+﻿@using UsuariosAPI.Models.ViewModels
+@model List<SucursalViewModel>
+
+<h1>Sucursales</h1>
+
+<a class="btn btn-success" asp-controller="Sucursales" asp-action="Agregar">Agregar</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Nombre</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Context.Response.StatusCode <= 299 && Context.Response.StatusCode >= 200)
+		{
+			@foreach (var sucursal in Model)
+			{
+				<tr>
+					<td>@Html.DisplayFor(m => sucursal.Id)</td>
+					<td>@Html.DisplayFor(m => sucursal.Nombre)</td>
+					<td>
+						<a asp-controller="Sucursales" asp-action="Editar" asp-route-id="@sucursal.Id" class="btn btn-warning">Editar</a>
+						<a asp-controller="Sucursales" asp-action="Eliminar" asp-route-id="@sucursal.Id" class="btn btn-danger">Eliminar</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<div class="text-danger">
+
+				@foreach (var kvp in (Dictionary<string, string[]>)ViewBag.errors)
+				{
+					@foreach (var value in kvp.Value)
+					{
+						<p>
+							@Html.DisplayFor(m => value)
+						</p>
+					}
+				}
+
+			</div>
+		}
+	</tbody>
+</table>

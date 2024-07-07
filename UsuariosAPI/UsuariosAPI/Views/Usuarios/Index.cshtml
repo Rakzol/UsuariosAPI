@@ -1,0 +1,77 @@
+﻿@using UsuariosAPI.Models.ViewModels
+@model List<UsuarioViewModel>
+
+@{
+	var roles = ViewBag.roles as List<RolViewModel>;
+	var sucursales = ViewBag.sucursales as List<SucursalViewModel>;
+}
+
+<h1>Usuarios</h1>
+
+<a class="btn btn-primary" asp-controller="Usuarios" asp-action="Filtrar" >Filtrar</a>
+<a class="btn btn-success" asp-controller="Usuarios" asp-action="Agregar">Agregar</a>
+
+<table class="table" >
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Email</th>
+			<th>Nombres</th>
+			<th>Apellidos</th>
+			<th>Rol</th>
+			<th>Sucursal</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	@if( Context.Response.StatusCode <= 299 && Context.Response.StatusCode >= 200 )
+	{
+		@foreach (var usuario in Model)
+		{
+			<tr>
+					<td>@Html.DisplayFor(m => usuario.Id)</td>
+					<td>@Html.DisplayFor(m => usuario.Email)</td>
+					<td>@Html.DisplayFor(m => usuario.Nombres)</td>
+					<td>@Html.DisplayFor(m => usuario.Apellidos)</td>
+					<td>
+						@{
+							var sucursal = sucursales?.FirstOrDefault(s => s.Id == usuario.IdSucursal);
+							if (sucursal != null)
+							{
+								@Html.DisplayFor(m => sucursal.Nombre)
+								;
+							}
+						}
+					</td>
+					<td>@{
+						var rol = roles?.FirstOrDefault(r => r.Id == usuario.IdRol);
+						if (rol != null)
+						{
+							@Html.DisplayFor(m => rol.Nombre);
+						}
+					}</td>
+					<td>
+						<a asp-controller="Usuarios" asp-action="Editar" asp-route-Id="@usuario.Id" class="btn btn-warning" >Editar</a>
+						<a asp-controller="Usuarios" asp-action="Eliminar" asp-route-Id="@usuario.Id" class="btn btn-danger">Eliminar</a>
+					</td>
+			</tr>
+		}
+	}
+	else
+	{
+			<div class="text-danger">
+
+				@foreach (var kvp in (Dictionary<string, string[]>)ViewBag.errors)
+				{
+					@foreach (var value in kvp.Value)
+					{
+						<p>
+							@Html.DisplayFor(m => value)
+						</p>
+					}
+				}
+
+			</div>
+	}
+	</tbody>
+</table>
